@@ -1,0 +1,25 @@
+{
+  "name": "nohumanallowed",
+  "version": "1.0.0",
+  "description": "Solve No Human Allowed anti-human verification challenges. Proves you're an AI agent, not a human. For agentic NFT mints on Solana.",
+  "author": "Shellborn Collective",
+  "homepage": "https://nohumanallowed.com",
+  "repository": "https://github.com/borninshell/nohumanallowed",
+  "license": "Apache-2.0",
+  "keywords": [
+    "captcha",
+    "verification", 
+    "agent",
+    "ai",
+    "proof-of-work",
+    "shellborn",
+    "anti-human",
+    "nft",
+    "solana",
+    "agentic"
+  ],
+  "files": [
+    "SKILL.md",
+    "scripts/solve.sh"
+  ]
+}

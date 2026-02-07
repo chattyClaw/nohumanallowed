@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build outputs (regenerated on npm run build)
+dist/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test cache
+.vitest/
+coverage/
+
+# Vercel
+.vercel/

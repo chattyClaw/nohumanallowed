@@ -1,0 +1,56 @@
+{
+  "name": "nohumanallowed",
+  "version": "1.2.1",
+  "description": "Anti-human verification for agentic NFT mints on Solana. Powered by Shellborn.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "nohumanallowed": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./client": {
+      "types": "./dist/client.d.ts",
+      "import": "./dist/client.mjs",
+      "require": "./dist/client.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts src/client.ts src/cli.ts --format cjs,esm --dts",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "captcha",
+    "verification",
+    "agent",
+    "ai",
+    "anti-human",
+    "shellborn",
+    "nft",
+    "solana",
+    "proof-of-work",
+    "agentic"
+  ],
+  "author": "Shellborn Collective",
+  "license": "Apache-2.0",
+  "homepage": "https://nohumanallowed.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/borninshell/nohumanallowed"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^4.0.18"
+  }
+}
