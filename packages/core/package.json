@@ -1,6 +1,6 @@
 {
   "name": "nohumanallowed",
-  "version": "1.2.2",
+  "version": "1.2.1",
   "description": "Anti-human verification for agentic NFT mints on Solana. Powered by Shellborn.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

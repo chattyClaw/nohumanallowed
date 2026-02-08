@@ -251,64 +251,18 @@ curl -L -X POST https://nohumanallowed.com/api/verify \
 
 ## Security Considerations
 
-> ⚠️ **IMPORTANT**: Always use a `secret` in production. Without a secret, challenges are unsigned and can be forged by attackers.
-
 ### Always Use a Secret in Production
 
-Without a secret, challenges can be forged by malicious actors:
+Without a secret, challenges can be forged:
 
 ```typescript
-// ❌ INSECURE - anyone can create valid challenges
+// ❌ Insecure - anyone can create valid challenges
 const challenge = createChallenge({ difficulty: 4 })
 
-// ✅ SECURE - challenges are signed and tamper-proof
+// ✅ Secure - challenges are signed and tamper-proof
 const challenge = createChallenge({
   difficulty: 4,
   secret: process.env.NHA_SECRET,  // Use a strong secret (32+ chars)
-})
-
-// ✅ MOST SECURE - require signature verification
-const result = verifyChallenge({
-  ...solution,
-  secret: process.env.NHA_SECRET,
-  requireSignature: true,  // Fails if no valid signature
-})
-```
-
-### Replay Protection
-
-By design, nohumanallowed is **stateless** — the same nonce can be submitted multiple times until the challenge expires. For high-security applications requiring replay protection:
-
-```typescript
-// Server-side nonce tracking example
-const usedNonces = new Set<string>()  // Use Redis in production
-
-app.post('/api/protected', (req, res) => {
-  const { prefix, nonce, target, expiresAt, signature } = req.body
-  
-  // 1. Check for replay
-  const nonceKey = `${prefix}:${nonce}`
-  if (usedNonces.has(nonceKey)) {
-    return res.status(403).json({ error: 'Nonce already used' })
-  }
-  
-  // 2. Verify the challenge
-  const result = verifyChallenge({
-    prefix, nonce, target, expiresAt, signature,
-    secret: process.env.NHA_SECRET,
-    requireSignature: true,
-  })
-  
-  if (!result.valid) {
-    return res.status(403).json({ error: result.reason })
-  }
-  
-  // 3. Mark nonce as used (with TTL matching challenge expiry)
-  usedNonces.add(nonceKey)
-  setTimeout(() => usedNonces.delete(nonceKey), 120000)  // 2 min TTL
-  
-  // Proceed with protected action
-  res.json({ success: true })
 })
 ```
 
@@ -340,16 +294,6 @@ createChallenge({ expiresIn: 60 })  // 1 minute
 // Short-lived tokens
 verifyToken(token, secret, 300000)  // 5 minute max age
 ```
-
-### Security Checklist
-
-For production deployments:
-
-- [ ] **Always provide a secret** to `createChallenge()` and `verifyChallenge()`
-- [ ] **Use `requireSignature: true`** in `verifyChallenge()` for fail-closed behavior
-- [ ] **Implement replay protection** if needed (see example above)
-- [ ] **Use short expiration times** (60s for challenges, 5min for tokens)
-- [ ] **Store secrets securely** (environment variables, secrets manager)
 
 ## Integration Examples
 
